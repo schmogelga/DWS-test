@@ -1,6 +1,5 @@
 package com.schmogel.isobar.application.web;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springdoc.core.annotations.ParameterObject;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.schmogel.isobar.application.dto.request.BandasRequestFilter;
 import com.schmogel.isobar.application.dto.response.BandaDetalheResponse;
-import com.schmogel.isobar.application.dto.response.BandaListaResponse;
+import com.schmogel.isobar.application.dto.response.BandasResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Bandas", description = "Operações de busca de bandas")
@@ -22,5 +21,5 @@ public interface BandaApi {
     BandaDetalheResponse obterBanda(@PathVariable UUID bandaId);
 
     @GetMapping
-    List<BandaListaResponse> listarBandas(@ParameterObject BandasRequestFilter filtro);
+    BandasResponse listarBandas(@ParameterObject BandasRequestFilter filtro);
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.schmogel.isobar.application.dto.request.BandasRequestFilter;
 import com.schmogel.isobar.application.dto.response.BandaDetalheResponse;
-import com.schmogel.isobar.application.dto.response.BandaListaResponse;
+import com.schmogel.isobar.application.dto.response.BandasResponse;
 import com.schmogel.isobar.application.service.BandaApplicationService;
 import com.schmogel.isobar.domain.exception.NotFoundException;
 import com.schmogel.isobar.domain.integration.BandaApiPort;
@@ -39,13 +39,14 @@ public class BandaService implements BandaApplicationService {
         return bandaMapper.toBandaCompletaResponse(banda);
     }
 
-    public List<BandaListaResponse> listarBandas(BandasRequestFilter filtro) {
+    public BandasResponse listarBandas(BandasRequestFilter filtro) {
         carregarCache();
 
-        return filtrarBandas(filtro.nome()).stream()
-                .sorted(getComparator(filtro.ordenacao()))
-                .map(bandaMapper::toBandaListaResponse)
-                .toList();
+        return new BandasResponse(
+                filtrarBandas(filtro.nome()).stream()
+                        .sorted(getComparator(filtro.ordenacao()))
+                        .map(bandaMapper::toBandaListaResponse)
+                        .toList());
     }
 
     private void carregarCache() {

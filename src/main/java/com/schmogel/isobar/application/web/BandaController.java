@@ -1,13 +1,12 @@
 package com.schmogel.isobar.application.web;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.web.bind.annotation.RestController;
 
 import com.schmogel.isobar.application.dto.request.BandasRequestFilter;
 import com.schmogel.isobar.application.dto.response.BandaDetalheResponse;
-import com.schmogel.isobar.application.dto.response.BandaListaResponse;
+import com.schmogel.isobar.application.dto.response.BandasResponse;
 import com.schmogel.isobar.application.service.BandaApplicationService;
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +22,7 @@ public class BandaController implements BandaApi {
     }
 
     @Override
-    public List<BandaListaResponse> listarBandas(BandasRequestFilter filtro) {
+    public BandasResponse listarBandas(BandasRequestFilter filtro) {
         return bandaService.listarBandas(filtro);
     }
 }

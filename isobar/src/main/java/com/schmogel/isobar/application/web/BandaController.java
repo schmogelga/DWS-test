@@ -5,6 +5,7 @@ import com.schmogel.isobar.application.service.BandaApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -16,5 +17,10 @@ public class BandaController implements BandaApi {
     @Override
     public BandaResponse obterBanda(UUID bandaId) {
         return bandaService.obterBanda(bandaId);
+    }
+
+    @Override
+    public List<BandaResponse> listarBandas(String nomeFiltro) {
+        return bandaService.listarBandas(nomeFiltro);
     }
 }

@@ -5,6 +5,8 @@ import com.schmogel.isobar.domain.exception.NotFoundException;
 import com.schmogel.isobar.domain.integration.BandaApiPort;
 
 import java.net.URI;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import com.schmogel.isobar.infrastructure.api.dto.Banda;
@@ -30,15 +32,22 @@ public class BandaApiAdapter implements BandaApiPort {
     private static final String MENSAGEM_ERRO = "Erro ao buscar banda: ";
     private static final String MENSAGEM_ERRO_2 = "Banda não encontrada";
 
-    @Value("${api-integration.bandas.url}")
-    private String urlBandas;
+    @Value("${api-integration.bandas.obter}")
+    private String urlBandasObter;
+
+    @Value("${api-integration.bandas.listar}")
+    private String urlBandasListar;
 
     @Override
     public Banda obterBanda(UUID bandaId) {
         log.info("Consultando banda de id {}", bandaId);
 
         try {
-            URI uri = getUri(urlBandas, bandaId.toString());
+            URI uri = UriComponentsBuilder
+                    .fromUriString(urlBandasObter)
+                    .buildAndExpand(bandaId)
+                    .toUri();
+
             ResponseEntity<Banda> response =
                     restTemplate.exchange(uri, HttpMethod.GET, null, Banda.class);
 
@@ -61,11 +70,36 @@ public class BandaApiAdapter implements BandaApiPort {
         }
     }
 
-    private URI getUri(String url, String bandId) {
-        return UriComponentsBuilder
-                .fromUriString(url)
-                .buildAndExpand(bandId)
-                .toUri();
+    @Override
+    public List<Banda> listarBandas() {
+        log.info("Listando todas as bandas");
+
+        try {
+            URI uri = UriComponentsBuilder
+                    .fromUriString(urlBandasListar)
+                    .build()
+                    .toUri();
+
+            ResponseEntity<Banda[]> response = restTemplate.exchange(uri, HttpMethod.GET, null, Banda[].class);
+
+            log.info("Bandas listadas com sucesso");
+            return Arrays.asList(response.getBody());
+
+        } catch (HttpClientErrorException clientError) {
+            if (clientError.getStatusCode() == HttpStatus.NOT_FOUND) {
+                throw new NotFoundException("Nenhuma banda encontrada");
+            }
+            log.error(MENSAGEM_ERRO + "listar todas - {}", clientError.getMessage());
+            throw new IntegracaoException(MENSAGEM_ERRO + "listar todas - {}", clientError.getMessage());
+
+        } catch (HttpServerErrorException serverError) {
+            log.error(MENSAGEM_ERRO + "listar todas - {}", serverError.getMessage());
+            throw new IntegracaoException("Serviço de bandas indisponível no momento");
+
+        } catch (RestClientException e) {
+            log.error(MENSAGEM_ERRO + "listar todas - {}", e.getMessage());
+            throw new IntegracaoException(MENSAGEM_ERRO + "listar todas - {}", e.getMessage());
+        }
     }
 }
 

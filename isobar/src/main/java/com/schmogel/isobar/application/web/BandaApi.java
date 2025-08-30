@@ -6,7 +6,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.UUID;
 
 @Tag(name = "Bandas", description = "Operações de busca de bandas")
@@ -15,4 +17,7 @@ public interface BandaApi {
 
     @GetMapping("/{bandaId}")
     BandaResponse obterBanda(@PathVariable UUID bandaId);
+
+    @GetMapping
+    List<BandaResponse> listarBandas(@RequestParam(required = false) String nomeFiltro);
 }

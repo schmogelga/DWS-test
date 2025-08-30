@@ -25,4 +25,5 @@ management:
 
 api-integration:
   bandas:
-    url: https://bands-api.vercel.app/api/bands/{bandId}
+    listar: https://bands-api.vercel.app/api/bands
+    obter: https://bands-api.vercel.app/api/bands/{bandId}

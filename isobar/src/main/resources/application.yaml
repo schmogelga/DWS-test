@@ -1,0 +1,29 @@
+spring:
+  devtools:
+    restart:
+      enabled: false
+  main.banner-mode: "OFF"
+  application:
+    name: isobar
+
+server:
+  max-http-request-header-size: 128KB
+  servlet:
+    context-path: /
+---
+info:
+  app:
+    name: isobar
+management:
+  endpoints:
+    # enabled-by-default: false
+    web:
+      exposure:
+        include: health,info
+
+---
+
+api-integration:
+  sispreqetl:
+    importar-processo:
+      url: http://localhost:8081/api/v1/processos/{numeroProcesso}

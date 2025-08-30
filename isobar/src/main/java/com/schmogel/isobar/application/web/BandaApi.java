@@ -1,23 +1,26 @@
 package com.schmogel.isobar.application.web;
 
-import com.schmogel.isobar.application.dto.response.BandaResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
+import java.util.UUID;
+
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.UUID;
+import com.schmogel.isobar.application.dto.request.BandasRequestFilter;
+import com.schmogel.isobar.application.dto.response.BandaDetalheResponse;
+import com.schmogel.isobar.application.dto.response.BandaListaResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Bandas", description = "Operações de busca de bandas")
 @RequestMapping(value = "/api/v1/bandas", produces = MediaType.APPLICATION_JSON_VALUE)
 public interface BandaApi {
 
     @GetMapping("/{bandaId}")
-    BandaResponse obterBanda(@PathVariable UUID bandaId);
+    BandaDetalheResponse obterBanda(@PathVariable UUID bandaId);
 
     @GetMapping
-    List<BandaResponse> listarBandas(@RequestParam(required = false) String nomeFiltro);
+    List<BandaListaResponse> listarBandas(@ParameterObject BandasRequestFilter filtro);
 }

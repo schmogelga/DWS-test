@@ -1,15 +1,10 @@
 package com.schmogel.isobar.infrastructure.api;
 
-import com.schmogel.isobar.domain.exception.IntegracaoException;
-import com.schmogel.isobar.domain.exception.NotFoundException;
-import com.schmogel.isobar.domain.integration.BandaApiPort;
-
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import com.schmogel.isobar.infrastructure.api.dto.Banda;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -19,6 +14,10 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.schmogel.isobar.domain.exception.IntegracaoException;
+import com.schmogel.isobar.domain.exception.NotFoundException;
+import com.schmogel.isobar.domain.integration.BandaApiPort;
+import com.schmogel.isobar.infrastructure.api.dto.Banda;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,10 +42,7 @@ public class BandaApiAdapter implements BandaApiPort {
         log.info("Consultando banda de id {}", bandaId);
 
         try {
-            URI uri = UriComponentsBuilder
-                    .fromUriString(urlBandasObter)
-                    .buildAndExpand(bandaId)
-                    .toUri();
+            URI uri = UriComponentsBuilder.fromUriString(urlBandasObter).buildAndExpand(bandaId).toUri();
 
             ResponseEntity<Banda> response =
                     restTemplate.exchange(uri, HttpMethod.GET, null, Banda.class);
@@ -75,12 +71,10 @@ public class BandaApiAdapter implements BandaApiPort {
         log.info("Listando todas as bandas");
 
         try {
-            URI uri = UriComponentsBuilder
-                    .fromUriString(urlBandasListar)
-                    .build()
-                    .toUri();
+            URI uri = UriComponentsBuilder.fromUriString(urlBandasListar).build().toUri();
 
-            ResponseEntity<Banda[]> response = restTemplate.exchange(uri, HttpMethod.GET, null, Banda[].class);
+            ResponseEntity<Banda[]> response =
+                    restTemplate.exchange(uri, HttpMethod.GET, null, Banda[].class);
 
             log.info("Bandas listadas com sucesso");
             return Arrays.asList(response.getBody());
@@ -102,4 +96,3 @@ public class BandaApiAdapter implements BandaApiPort {
         }
     }
 }
-

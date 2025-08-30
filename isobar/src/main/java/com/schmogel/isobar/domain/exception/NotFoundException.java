@@ -10,4 +10,3 @@ public class NotFoundException extends RuntimeException {
         super(String.format(message, args));
     }
 }
-

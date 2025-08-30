@@ -1,13 +1,15 @@
 package com.schmogel.isobar.application.service;
 
-import com.schmogel.isobar.application.dto.response.BandaResponse;
-
 import java.util.List;
 import java.util.UUID;
 
+import com.schmogel.isobar.application.dto.request.BandasRequestFilter;
+import com.schmogel.isobar.application.dto.response.BandaDetalheResponse;
+import com.schmogel.isobar.application.dto.response.BandaListaResponse;
+
 public interface BandaApplicationService {
 
-    BandaResponse obterBanda(UUID bandaId);
-    List<BandaResponse> listarBandas(String nomeFiltro);
+    BandaDetalheResponse obterBanda(UUID bandaId);
 
+    List<BandaListaResponse> listarBandas(BandasRequestFilter filtro);
 }

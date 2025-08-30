@@ -9,5 +9,4 @@ public class IsobarApplication {
     public static void main(String[] args) {
         SpringApplication.run(IsobarApplication.class, args);
     }
-
 }

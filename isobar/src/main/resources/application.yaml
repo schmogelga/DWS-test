@@ -24,6 +24,5 @@ management:
 ---
 
 api-integration:
-  sispreqetl:
-    importar-processo:
-      url: http://localhost:8081/api/v1/processos/{numeroProcesso}
+  bandas:
+    url: https://bands-api.vercel.app/api/bands/{bandId}
